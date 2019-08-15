@@ -1,8 +1,8 @@
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    loadServiceWorker();
-
     // unregisterOldVersions();
+
+    // loadServiceWorker();
 
     getNotificationPermissions();
   });
@@ -10,7 +10,7 @@ if ("serviceWorker" in navigator) {
 
 function loadServiceWorker() {
   navigator.serviceWorker
-    .register("./service-worker.js")
+    .register("/sw.js")
     .then(registration => {
       console.log("SW registered: ", registration);
     })
@@ -41,24 +41,51 @@ function getNotificationPermissions() {
 
     if (status === "granted") {
       navigator.serviceWorker.getRegistration().then(function(reg) {
-        console.log("reg", reg);
+        const { title, options } = getNotificationData();
+        console.log("tag:", options.tag);
         if ("showNotification" in reg) {
-          const { title, options } = getNotificationData();
-          console.log("tag:", options.tag);
           reg.showNotification(title, options);
+        } else {
+          createNewNotificationMessage();
         }
       });
     }
   });
 }
 
+function createNewNotificationMessage() {
+  const { title, options } = getNotificationData();
+  const n = new Notification(title, options);
+
+  n.onshow = function() {
+    console.log("on show message ...");
+  };
+
+  // Remove the notification from Notification Center when clicked.
+  n.onclick = function() {
+    console.log(
+      "Remove the notification from Notification Center when clicked."
+    );
+    this.close();
+  };
+  // Callback function when the notification is closed.
+  n.onclose = function() {
+    console.log("Notification closed");
+  };
+}
+
 function getNotificationData() {
   const title = "New message from Dimitar";
   const options = {
-    body: 'Dimitar: "Hello by Bulgaria!"',
+    body: "Dimitar: I'm a developer",
 
     // ...prevent duplicate notifications
     tag: generateUniqueTag(),
+
+    data: {
+      // Lets us identity notification
+      primaryKey: 1
+    },
 
     // Actions
     actions: [
