@@ -1,23 +1,3 @@
-const title = "New message from Dimitar";
-const options = {
-  body: 'Dimitar: "Hello by Bulgaria!"',
-
-  // ...prevent duplicate notifications
-  tag: "unique string",
-
-  // Actions
-  actions: [
-    {
-      action: "go",
-      title: "Go to the site"
-    },
-    {
-      action: "close",
-      title: "No thank you"
-    }
-  ]
-};
-
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     loadServiceWorker();
@@ -61,11 +41,44 @@ function getNotificationPermissions() {
 
     if (status === "granted") {
       navigator.serviceWorker.getRegistration().then(function(reg) {
-        console.log('reg', reg)
-        if ('showNotification' in reg) { 
+        console.log("reg", reg);
+        if ("showNotification" in reg) {
+          const { title, options } = getNotificationData();
+          console.log("tag:", options.tag);
           reg.showNotification(title, options);
         }
       });
     }
   });
+}
+
+function getNotificationData() {
+  const title = "New message from Dimitar";
+  const options = {
+    body: 'Dimitar: "Hello by Bulgaria!"',
+
+    // ...prevent duplicate notifications
+    tag: generateUniqueTag(),
+
+    // Actions
+    actions: [
+      {
+        action: "go",
+        title: "You have a new message"
+      },
+      {
+        action: "close",
+        title: "No thank you"
+      }
+    ]
+  };
+
+  return {
+    title,
+    options
+  };
+}
+
+function generateUniqueTag() {
+  return "unique-string-" + new Date().toString();
 }
