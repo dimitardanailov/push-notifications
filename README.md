@@ -1,8 +1,10 @@
-# Simple Safari push notification demo
+# Push notification demo
+
+Application could send push notification application on Google Chrome and Safari.
+
+What's Notification API and Push API ?
 
 > Push Notifications are assembled using two APIs: the Notifications API and the Push API. The Notifications API lets the app display system notifications to the user. The Push API allows a service worker to handle Push Messages from a server, even while the app is not active.
-
-Current project send and receive safari notifications
 
 ### Demos
 
