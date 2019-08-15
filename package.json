@@ -1,0 +1,17 @@
+{
+  "name": "ddanailov-push-notifications",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:dimitardanailov/push-notifications.git",
+  "author": "Dimitar Danailov <dimityr.danailov@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack-dev-server --open"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.8.0"
+  }
+}
