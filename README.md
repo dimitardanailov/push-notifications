@@ -1,6 +1,17 @@
 # Simple Safari push notification demo
 
-`demos` folder contains safari push notifications
+> Push Notifications are assembled using two APIs: the Notifications API and the Push API. The Notifications API lets the app display system notifications to the user. The Push API allows a service worker to handle Push Messages from a server, even while the app is not active.
 
-Resources: 
+Current project send and receive safari notifications
+
+### Demos
+
+If you want to demenostrate push notifications and discuss with your teammates or boss please use the `demo` folder.
+
+### Resources: 
 - [Notification Programming Guide for Websites](https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/NotificationProgrammingGuideForWebsites/LocalNotifications/LocalNotifications.html#//apple_ref/doc/uid/TP40012932-SW1)
+
+### Videos:
+- [Debugging Service Workers in Safari - Progressive Web App Training](https://www.youtube.com/watch?v=87RU7v6Y-bk)
+- [Introduction to Web Push & Notifications - Progressive Web App Training](https://youtu.be/85LAGSFgUhA)
+- []()
