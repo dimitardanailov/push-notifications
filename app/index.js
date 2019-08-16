@@ -1,9 +1,13 @@
+import asyncGetNotificationPermissions from "./utils/permissions";
+
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     exampleNotification();
     // unregisterOldVersions();
 
     loadServiceWorker();
+
+    messagePermissionListener()
 
     getNotificationPermissions();
   });
@@ -27,6 +31,19 @@ function unregisterOldVersions() {
       registration.unregister().then(unregister => console.log(unregister));
     }
   });
+}
+
+function messagePermissionListener() {
+  const button = document.getElementById("permissions");
+  button.onclick = async () => {
+    asyncGetNotificationPermissions()
+      .then(status => {
+        console.log('status', status)
+      }).catch(status => {
+        console.error('status', status)
+      })
+    
+  };
 }
 
 function getNotificationPermissions() {
@@ -139,6 +156,6 @@ function getActions() {
 function exampleNotification() {
   const button = document.getElementById("exampleNotification");
   button.onclick = () => {
-    getNotificationPermissions()
+    getNotificationPermissions();
   };
 }
