@@ -6,8 +6,10 @@
   "author": "Dimitar Danailov <dimityr.danailov@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "build": "yarn run copy && yarn run webpack",
     "copy": "cp app/sw.js dist/",
-    "start": "webpack-dev-server --open"
+    "start": "webpack-dev-server --open",
+    "webpack": "./node_modules/.bin/webpack"
   },
   "devDependencies": {
     "html-webpack-plugin": "^3.2.0",
