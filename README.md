@@ -12,8 +12,8 @@ If you want to demenostrate push notifications and discuss with your teammates o
 
 ### Resources: 
 - [Notification Programming Guide for Websites](https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/NotificationProgrammingGuideForWebsites/LocalNotifications/LocalNotifications.html#//apple_ref/doc/uid/TP40012932-SW1)
+- [Displaying a Notification](https://developers.google.com/web/fundamentals/push-notifications/display-a-notification)
 
 ### Videos:
 - [Debugging Service Workers in Safari - Progressive Web App Training](https://www.youtube.com/watch?v=87RU7v6Y-bk)
 - [Introduction to Web Push & Notifications - Progressive Web App Training](https://youtu.be/85LAGSFgUhA)
-- []()
