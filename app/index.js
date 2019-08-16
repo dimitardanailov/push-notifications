@@ -1,5 +1,6 @@
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
+    exampleNotification();
     // unregisterOldVersions();
 
     loadServiceWorker();
@@ -40,15 +41,19 @@ function getNotificationPermissions() {
     console.log("Notification permission status:", status);
 
     if (status === "granted") {
-      navigator.serviceWorker.getRegistration().then(function(reg) {
-        const { title, options } = getNotificationData();
-        console.log("tag:", options.tag);
-        if ("showNotification" in reg) {
-          reg.showNotification(title, options);
-        } else {
-          createNewNotificationMessage();
-        }
-      });
+      showNotification();
+    }
+  });
+}
+
+function showNotification() {
+  navigator.serviceWorker.getRegistration().then(function(reg) {
+    const { title, options } = getNotificationData();
+    console.log("tag:", options.tag);
+    if ("showNotification" in reg) {
+      reg.showNotification(title, options);
+    } else {
+      createNewNotificationMessage();
     }
   });
 }
@@ -82,7 +87,7 @@ function getNotificationData() {
     // ...prevent duplicate notifications
     tag: generateUniqueTag(),
 
-    // There are scenarios where you might want a replacing notification to notify the user rather than silently update. Chat applications are a good example. 
+    // There are scenarios where you might want a replacing notification to notify the user rather than silently update. Chat applications are a good example.
     // In this case, you should set tag and renotify to true.
     renotify: true,
 
@@ -128,4 +133,12 @@ function getActions() {
       title: "Emberjs"
     }
   ];
+}
+
+/*** Buttons  ***/
+function exampleNotification() {
+  const button = document.getElementById("exampleNotification");
+  button.onclick = () => {
+    getNotificationPermissions()
+  };
 }
