@@ -6,6 +6,7 @@
   "author": "Dimitar Danailov <dimityr.danailov@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "copy": "cp app/sw.js dist/",
     "start": "webpack-dev-server --open"
   },
   "devDependencies": {
