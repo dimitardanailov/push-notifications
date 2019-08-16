@@ -2,6 +2,8 @@ import getNotificationPermissions from "./notification-api/getNotificationPermis
 import askPermission from "./notification-api/askPermission";
 import urlBase64ToUint8Array from "./push-api/urlBase64ToUint8Array"
 
+require('dotenv').config()
+
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     if (!"Notification" in window) {

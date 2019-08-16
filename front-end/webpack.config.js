@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WorkboxPlugin = require("workbox-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 
 const { APP_DIR, DIST_DIR } = require("./utils/folders");
 
@@ -17,6 +18,10 @@ module.exports = {
     modules: ["node_modules"]
   },
 
+  node: {
+    fs: 'empty'
+  },
+
   // https://github.com/webpack-contrib/karma-webpack
   devtool: "inline-source-map",
 
@@ -32,7 +37,7 @@ module.exports = {
   plugins: [
     // https://webpack.js.org/plugins/html-webpack-plugin/
     new HtmlWebpackPlugin({
-      title: 'Progressive Web Application',
+      title: "Progressive Web Application",
       template: `${APP_DIR}/index.html`
     }),
 
@@ -41,6 +46,16 @@ module.exports = {
       // and not allow any straggling "old" SWs to hang around
       clientsClaim: true,
       skipWaiting: true
-    })
+    }), 
+
+    // https://github.com/mrsteele/dotenv-webpack
+    new Dotenv({
+      // load '.env.example' to verify the '.env' variables are all set. 
+      // Can also be a string to a different file.
+      safe: true, 
+
+      // load all the predefined 'process.env' variables which will trump anything local per dotenv specs.
+      systemvars: true,
+    }),
   ]
 };
