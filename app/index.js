@@ -1,5 +1,6 @@
 import getNotificationPermissions from "./notification-api/getNotificationPermissions";
 import askPermission from "./notification-api/askPermission";
+import urlBase64ToUint8Array from "./push-api/urlBase64ToUint8Array"
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -12,7 +13,7 @@ if ("serviceWorker" in navigator) {
 
     // unregisterOldVersions();
 
-    loadServiceWorker();
+    subscribeUserToPush();
 
     if (window.location.search !== "?live_reload=false") {
       onLoadPermissions();
@@ -32,6 +33,31 @@ function loadServiceWorker() {
     })
     .catch(registrationError => {
       console.log("SW registration failed: ", registrationError);
+    });
+}
+
+
+function subscribeUserToPush() {
+  return navigator.serviceWorker
+    .register("/sw.js")
+    .then(registration => {
+      console.log("SW registered: ", registration);
+
+      const subscribeOptions = {
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(
+          ""
+        )
+      };
+
+      return registration.pushManager.subscribe(subscribeOptions);
+    })
+    .then(function(pushSubscription) {
+      console.log(
+        "Received PushSubscription:",
+        JSON.stringify(pushSubscription)
+      );
+      return pushSubscription;
     });
 }
 

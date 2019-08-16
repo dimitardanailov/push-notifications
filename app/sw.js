@@ -52,3 +52,12 @@ self.addEventListener("notificationclose", event => {
 
   event.waitUntil(promiseChain);
 });
+
+self.addEventListener("push", event => {
+  console.log('push event', event)
+  const title = event.data.text();
+
+  event.waitUntil(
+    self.registration.showNotification(title)
+  )
+});
