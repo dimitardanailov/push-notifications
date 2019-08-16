@@ -8,7 +8,7 @@ self.addEventListener("activate", function(event) {
   console.log("Service Worker activating.");
 });
 
-window.addEventListener('notificationclick', event => {
+self.addEventListener('notificationclick', event => {
 	console.log('notificationclick')
 
 	const notification = event.notification
@@ -17,7 +17,7 @@ window.addEventListener('notificationclick', event => {
 		notification.close();
 	} else {
 		if (openWindowIsSupported()) {
-			clients.openWindow('http://www.exapmple.com')
+			clients.openWindow('http://example.com')
 		}
 	}
 });

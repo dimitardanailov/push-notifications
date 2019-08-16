@@ -2,7 +2,7 @@ if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     // unregisterOldVersions();
 
-    // loadServiceWorker();
+    loadServiceWorker();
 
     getNotificationPermissions();
   });
