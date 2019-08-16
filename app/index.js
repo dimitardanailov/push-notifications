@@ -1,7 +1,4 @@
 import getNotificationPermissions from "./notification-api/getNotificationPermissions";
-const urlParams = new URLSearchParams();
-
-console.log(window.location)
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -12,9 +9,8 @@ if ("serviceWorker" in navigator) {
       return;
     }
 
-    // exampleNotification();
     // unregisterOldVersions();
-
+    
     loadServiceWorker();
 
     if (window.location.search !== '?live_reload=false') {
@@ -22,6 +18,8 @@ if ("serviceWorker" in navigator) {
     } else {
       messagePermissionListener();
     }
+
+    exampleNotification();
   });
 }
 
