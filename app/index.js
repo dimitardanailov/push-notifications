@@ -1,15 +1,27 @@
-import asyncGetNotificationPermissions from "./utils/permissions";
+import getNotificationPermissions from "./notification-api/getNotificationPermissions";
+const urlParams = new URLSearchParams();
+
+console.log(window.location)
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    exampleNotification();
+    if (!"Notification" in window) {
+      // If the browser version is unsupported, remain silent.
+      alert("Browser doesn't support push notifications ...");
+  
+      return;
+    }
+
+    // exampleNotification();
     // unregisterOldVersions();
 
     loadServiceWorker();
 
-    messagePermissionListener()
-
-    getNotificationPermissions();
+    if (window.location.search !== '?live_reload=false') {
+      onLoadPermissions();
+    } else {
+      messagePermissionListener();
+    }
   });
 }
 
@@ -36,31 +48,23 @@ function unregisterOldVersions() {
 function messagePermissionListener() {
   const button = document.getElementById("permissions");
   button.onclick = async () => {
-    asyncGetNotificationPermissions()
-      .then(status => {
-        console.log('status', status)
-      }).catch(status => {
-        console.error('status', status)
-      })
-    
+    onLoadPermissions()
   };
 }
 
-function getNotificationPermissions() {
-  if (!"Notification" in window) {
-    // If the browser version is unsupported, remain silent.
-    alert("Browser doesn't support push notifications ...");
+async function onLoadPermissions() {
+  const permission = await getNotificationPermissions()
 
-    return;
+  if (permission === 'granted') {
+    showNotification();
+  } else if (permission === 'default') {
+    Notification.requestPermission(status => {
+      console.log("Notification permission status:", status);
+      if (status === "granted") {
+        showNotification();
+      }
+    });
   }
-
-  Notification.requestPermission(status => {
-    console.log("Notification permission status:", status);
-
-    if (status === "granted") {
-      showNotification();
-    }
-  });
 }
 
 function showNotification() {
