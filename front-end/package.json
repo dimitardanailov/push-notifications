@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "build": "yarn run copy && yarn run webpack",
-    "copy": "cp app/sw.js dist/",
+    "copy": "mkdir -p dist && cp app/sw.js dist/",
     "start": "webpack-dev-server --open",
     "webpack": "./node_modules/.bin/webpack"
   },
