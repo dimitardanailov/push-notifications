@@ -1,3 +1,5 @@
+.firebase/hosting*
+
 dist
 
 node_modules
