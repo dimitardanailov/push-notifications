@@ -47,9 +47,8 @@ function subscribeUserToPush() {
 
       const subscribeOptions = {
         userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(
-          ""
-        )
+        applicationServerKey: 
+          urlBase64ToUint8Array(process.env.APPLICATION_SERVER_KEY)
       };
 
       return registration.pushManager.subscribe(subscribeOptions);
