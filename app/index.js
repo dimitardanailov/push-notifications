@@ -1,19 +1,20 @@
 import getNotificationPermissions from "./notification-api/getNotificationPermissions";
+import askPermission from "./notification-api/askPermission";
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     if (!"Notification" in window) {
       // If the browser version is unsupported, remain silent.
       alert("Browser doesn't support push notifications ...");
-  
+
       return;
     }
 
     // unregisterOldVersions();
-    
+
     loadServiceWorker();
 
-    if (window.location.search !== '?live_reload=false') {
+    if (window.location.search !== "?live_reload=false") {
       onLoadPermissions();
     } else {
       messagePermissionListener();
@@ -46,22 +47,17 @@ function unregisterOldVersions() {
 function messagePermissionListener() {
   const button = document.getElementById("permissions");
   button.onclick = async () => {
-    onLoadPermissions()
+    onLoadPermissions();
   };
 }
 
 async function onLoadPermissions() {
-  const permission = await getNotificationPermissions()
+  const permission = await getNotificationPermissions();
 
-  if (permission === 'granted') {
+  if (permission === "granted") {
     showNotification();
-  } else if (permission === 'default') {
-    Notification.requestPermission(status => {
-      console.log("Notification permission status:", status);
-      if (status === "granted") {
-        showNotification();
-      }
-    });
+  } else if (permission === "default") {
+    askPermission();
   }
 }
 
@@ -158,6 +154,6 @@ function getActions() {
 function exampleNotification() {
   const button = document.getElementById("exampleNotification");
   button.onclick = () => {
-    getNotificationPermissions();
+    onLoadPermissions();
   };
 }
