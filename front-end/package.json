@@ -6,8 +6,12 @@
   "author": "Dimitar Danailov <dimityr.danailov@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "yarn run copy && yarn run webpack",
-    "copy": "mkdir -p dist && cp app/sw.js dist/",
+    "build": "yarn run clean && yarn run copy && yarn run webpack",
+    "clean": "rm -rf dist",
+    "create-dist-folder": "mkdir -p dist",
+    "copy": "yarn run create-dist-folder && yarn run copy-manifest-json && yarn run copy:service-worker",
+    "copy-manifest-json": "cp manifest.json dist/",
+    "copy:service-worker": "cp app/sw.js dist/",
     "start": "webpack-dev-server --open",
     "webpack": "./node_modules/.bin/webpack"
   },
