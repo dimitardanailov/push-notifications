@@ -4,7 +4,7 @@
   "description": "Simple nodejs backend push notification.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon -r esm index.js --ignore db.json"
   },
   "repository": {
     "type": "git",
