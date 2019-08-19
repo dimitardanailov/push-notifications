@@ -20,5 +20,12 @@
   "bugs": {
     "url": "https://github.com/dimitardanailov/push-notifications/issues"
   },
-  "homepage": "https://github.com/dimitardanailov/push-notifications#readme"
+  "homepage": "https://github.com/dimitardanailov/push-notifications#readme",
+  "dependencies": {
+    "esm": "^3.2.25",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
 }
