@@ -1,5 +1,7 @@
 import express from 'express'
 
+require('dotenv').config()
+
 const app = express()
 
 app.get('/', async (_, res, __) => {
@@ -8,4 +10,4 @@ app.get('/', async (_, res, __) => {
 	})
 })
 
-app.listen(2450, () => console.log('Hello world by push notifications'))
+app.listen(process.env.PORT, () => console.info(`Application works on ${process.env.PORT}`))
