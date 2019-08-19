@@ -4,7 +4,8 @@
   "description": "Simple nodejs backend push notification.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon -r esm index.js"
+    "dev": "nodemon -r esm index.js",
+    "notification": "node ./notification.js"
   },
   "repository": {
     "type": "git",
