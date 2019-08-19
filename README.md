@@ -15,6 +15,9 @@ If you want to demenostrate push notifications and discuss with your teammates o
 - [Displaying a Notification](https://developers.google.com/web/fundamentals/push-notifications/display-a-notification)
 - [Subscribing a User](https://developers.google.com/web/fundamentals/push-notifications/subscribing-a-user)
 
+### Playlists
+- [Progressive Web App Training](https://www.youtube.com/playlist?list=PLNYkxOF6rcIB2xHBZ7opgc2Mv009X87Hh)
+
 ### Videos:
 - [Debugging Service Workers in Safari - Progressive Web App Training](https://www.youtube.com/watch?v=87RU7v6Y-bk)
 - [Introduction to Web Push & Notifications - Progressive Web App Training](https://youtu.be/85LAGSFgUhA)
