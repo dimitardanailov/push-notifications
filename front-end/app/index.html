@@ -18,13 +18,22 @@
 		<h1>
 			Push notifications demo website.
 		</h1>
+		<p>This page must be accessed using HTTPS or via localhost.</p>
 		
 		<div>
 			<button id="permissions">Application wants to send you a push notifications</button>
 		</div>
-
 		<div>
 			<button id="exampleNotification">Example notification</button>
 		</div>
+
+		<h3>Push messaging:</h3>
+		<button disabled id="js-push-btn">Enable push notifications:</button>
+		<section id="endpoint">
+			<h4>Subscription Object:</h4>
+			<code id="js-subscription-json"></code>
+			<h4>Endpoint URL:</h4>
+			<code id="js-endpoint-url"></code>
+		</section>
 	</body>
 </html>
