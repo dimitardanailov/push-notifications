@@ -24,7 +24,8 @@
   "homepage": "https://github.com/dimitardanailov/push-notifications#readme",
   "dependencies": {
     "esm": "^3.2.25",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "web-push": "^3.3.5"
   },
   "devDependencies": {
     "dotenv": "^8.1.0",
