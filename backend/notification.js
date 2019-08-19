@@ -20,5 +20,3 @@ webPush.sendNotification(
   options
 )
 
-console.log(options)
-
