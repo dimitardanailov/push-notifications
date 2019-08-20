@@ -1,6 +1,6 @@
 require('dotenv').config()
 const webPush = require('web-push')
-const pushSubscription = require('./pushSubscription.json')
+const pushSubscription = require('./push-notifications-json/chrome.json')
 
 const options = {
 	TTL: 60,
