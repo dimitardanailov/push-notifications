@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon -r esm index.js",
-    "notifications:chrome": "node -r esm ./notifications/chome.js"
+    "notifications:chrome": "node -r esm ./notifications/chome.js",
+    "notifications:firefox": "node -r esm ./notifications/firefox.js"
   },
   "repository": {
     "type": "git",
