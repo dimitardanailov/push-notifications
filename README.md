@@ -10,6 +10,9 @@ What's Notification API and Push API ?
 
 If you want to demenostrate push notifications and discuss with your teammates or boss please use the `demo` folder.
 
+### Labs
+- [Developing Progressive Web Apps 08.0: Integrating web push](https://codelabs.developers.google.com/codelabs/pwa-integrating-push/index.html?index=..%2F..dev-pwa-training#0)
+
 ### Resources: 
 - [Notification Programming Guide for Websites](https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/NotificationProgrammingGuideForWebsites/LocalNotifications/LocalNotifications.html#//apple_ref/doc/uid/TP40012932-SW1)
 - [Displaying a Notification](https://developers.google.com/web/fundamentals/push-notifications/display-a-notification)
