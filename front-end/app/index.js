@@ -18,6 +18,8 @@ if ("serviceWorker" in navigator) {
       return;
     }
 
+    // unregisterOldVersions();
+
     navigator.serviceWorker
       .register("/sw.js")
       .then(swReg => {
@@ -30,10 +32,6 @@ if ("serviceWorker" in navigator) {
       .catch(e => {
         console.error("Service Worker Error", e);
       });
-
-    // unregisterOldVersions();
-
-    subscribeUserToPush();
 
     if (window.location.search !== "?live_reload=false") {
       onLoadPermissions();
@@ -55,6 +53,22 @@ function initializeUI() {
       subscribeUser();
     }
   });
+
+  // Set the initial subscription value
+  swRegistration.pushManager.getSubscription()
+    .then(subscription => {
+      isSubscribed = (subscription !== null)
+
+      updateSubscriptionOnServer(subscription)
+
+      if (isSubscribed) {
+        console.log('User IS subscribed.')
+      } else {
+        console.log('User is NOT subscribed.');
+      }
+
+      updatePushBtn();
+    })
 }
 
 function loadServiceWorker() {
@@ -65,30 +79,6 @@ function loadServiceWorker() {
     })
     .catch(registrationError => {
       console.log("SW registration failed: ", registrationError);
-    });
-}
-
-function subscribeUserToPush() {
-  return navigator.serviceWorker
-    .register("/sw.js")
-    .then(registration => {
-      console.log("SW registered: ", registration);
-
-      const subscribeOptions = {
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(
-          process.env.VAPID_PUBLIC_KEY
-        )
-      };
-
-      return registration.pushManager.subscribe(subscribeOptions);
-    })
-    .then(function(pushSubscription) {
-      console.log(
-        "Received PushSubscription:",
-        JSON.stringify(pushSubscription)
-      );
-      return pushSubscription;
     });
 }
 
@@ -216,6 +206,32 @@ function exampleNotification() {
 }
 
 /*** Push notifications ***/
+function subscribeUser() {
+  swRegistration.pushManager
+    .subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(process.env.VAPID_PUBLIC_KEY)
+    })
+    .then(subscription => {
+      console.log("User is subscribed", subscription);
+
+      updateSubscriptionOnServer(subscription);
+
+      isSubscribed = true;
+
+      updatePushBtn();
+    })
+    .catch(err => {
+      if (Notification.permission === "denied") {
+        console.warn("Permission for notifications was denied");
+      } else {
+        console.error("Failed to subscribe the user: ", err);
+      }
+
+      updatePushBtn();
+    });
+}
+
 function unsubscribeUser() {
   swRegistration.pushManager
     .getSubscription()
