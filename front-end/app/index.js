@@ -1,8 +1,13 @@
 import getNotificationPermissions from "./notification-api/getNotificationPermissions";
 import askPermission from "./notification-api/askPermission";
-import urlBase64ToUint8Array from "./push-api/urlBase64ToUint8Array"
+import urlBase64ToUint8Array from "./push-api/urlBase64ToUint8Array";
 
-require('dotenv').config()
+require("dotenv").config();
+
+let isSubscribed = false;
+let swRegistration = null;
+
+const pushButton = document.getElementById("js-push-btn");
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -12,6 +17,19 @@ if ("serviceWorker" in navigator) {
 
       return;
     }
+
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then(swReg => {
+        console.log("Service Worker is registered", swReg);
+
+        swRegistration = swReg;
+
+        initializeUI();
+      })
+      .catch(e => {
+        console.error("Service Worker Error", e);
+      });
 
     // unregisterOldVersions();
 
@@ -27,6 +45,18 @@ if ("serviceWorker" in navigator) {
   });
 }
 
+function initializeUI() {
+  pushButton.addEventListener("click", () => {
+    pushButton.disabled = true;
+
+    if (isSubscribed) {
+      unsubscribeUser();
+    } else {
+      subscribeUser();
+    }
+  });
+}
+
 function loadServiceWorker() {
   navigator.serviceWorker
     .register("/sw.js")
@@ -38,7 +68,6 @@ function loadServiceWorker() {
     });
 }
 
-
 function subscribeUserToPush() {
   return navigator.serviceWorker
     .register("/sw.js")
@@ -47,8 +76,9 @@ function subscribeUserToPush() {
 
       const subscribeOptions = {
         userVisibleOnly: true,
-        applicationServerKey: 
-          urlBase64ToUint8Array(process.env.VAPID_PUBLIC_KEY)
+        applicationServerKey: urlBase64ToUint8Array(
+          process.env.VAPID_PUBLIC_KEY
+        )
       };
 
       return registration.pushManager.subscribe(subscribeOptions);
@@ -183,4 +213,57 @@ function exampleNotification() {
   button.onclick = () => {
     onLoadPermissions();
   };
+}
+
+/*** Push notifications ***/
+function unsubscribeUser() {
+  swRegistration.pushManager
+    .getSubscription()
+    .then(subscription => {
+      if (subscription) return subscription;
+    })
+    .catch(e => {
+      console.error("Error unsubscribing", e);
+    })
+    .then(() => {
+      updateSubscriptionOnServer(null);
+
+      console.log("User is unsubscribed");
+      isSubscribed = false;
+
+      updatePushBtn();
+    });
+}
+
+function updatePushBtn() {
+  if (Notification.permission === "denied") {
+    pushButton.textContent = "Push messaging blocked";
+    pushButton.disabled = true;
+    updateSubscriptionOnServer(null);
+    return;
+  }
+
+  if (isSubscribed) {
+    pushButton.textContent = "Disable Push Messaging";
+  } else {
+    pushButton.textContent = "Enable Push Messaging";
+  }
+
+  pushButton.disabled = false;
+}
+
+function updateSubscriptionOnServer(subscription) {
+  // Here's where you would send the subscription to the application server
+
+  const subscriptionJson = document.getElementById("js-subscription-json");
+  const endpointURL = document.getElementById("js-endpoint-url");
+  const subAndEndpoint = document.getElementById("js-endpoint-url");
+
+  if (subscription) {
+    subscriptionJson.textContent = JSON.stringify(subscription);
+    endpointURL.textContent = subscription.endpoint;
+    subAndEndpoint.style.display = "block";
+  } else {
+    subAndEndpoint.style.display = "none";
+  }
 }
