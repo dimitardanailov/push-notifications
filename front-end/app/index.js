@@ -1,6 +1,9 @@
 import getNotificationPermissions from "./notification-api/getNotificationPermissions";
 import askPermission from "./notification-api/askPermission";
 import urlBase64ToUint8Array from "./push-api/urlBase64ToUint8Array";
+import pushNotificationVersion from './push-api/pushNotificationVersion';
+
+console.log('pushNotificationVersion', pushNotificationVersion())
 
 require("dotenv").config();
 
