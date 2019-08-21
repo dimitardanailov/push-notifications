@@ -1,0 +1,8 @@
+{
+	"websiteName": "Dimitar Danailov push notifications",
+	"websitePushID": "web.com.firebaseapp.push-notifications-ddanailov",
+	"allowedDomains": ["https://push-notifications-ddanailov.firebaseapp.com"],
+	"urlFormatString": "https://push-notifications-ddanailov.firebaseapp.com/%@/?notification=%@",
+	"authenticationToken": "19f8d7a6e9fb8a7f6d9330dabe",
+	"webServiceURL": "https://push-notifications-ddanailov.firebaseapp.com/push"
+}
