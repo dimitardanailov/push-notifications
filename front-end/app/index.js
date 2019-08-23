@@ -2,15 +2,11 @@ import getNotificationPermissions from "./notification-api/getNotificationPermis
 import askPermission from "./notification-api/askPermission";
 import urlBase64ToUint8Array from "./push-api/urlBase64ToUint8Array";
 import pushNotificationVersion from './push-api/pushNotificationVersion';
+import NativeClient from './push-api/native-client'
 
-console.log('pushNotificationVersion', pushNotificationVersion())
+const pushNotificationClient = pushNotificationVersion()
 
 require("dotenv").config();
-
-let isSubscribed = false;
-let swRegistration = null;
-
-const pushButton = document.getElementById("js-push-btn");
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -28,9 +24,10 @@ if ("serviceWorker" in navigator) {
       .then(swReg => {
         console.log("Service Worker is registered", swReg);
 
-        swRegistration = swReg;
-
-        initializeUI();
+        if (pushNotificationClient === 'native') {
+          const client = new NativeClient(swReg)
+          client.initializeUI()
+        }
       })
       .catch(e => {
         console.error("Service Worker Error", e);
@@ -44,34 +41,6 @@ if ("serviceWorker" in navigator) {
 
     exampleNotification();
   });
-}
-
-function initializeUI() {
-  pushButton.addEventListener("click", () => {
-    pushButton.disabled = true;
-
-    if (isSubscribed) {
-      unsubscribeUser();
-    } else {
-      subscribeUser();
-    }
-  });
-
-  // Set the initial subscription value
-  swRegistration.pushManager.getSubscription()
-    .then(subscription => {
-      isSubscribed = (subscription !== null)
-
-      updateSubscriptionOnServer(subscription)
-
-      if (isSubscribed) {
-        console.log('User IS subscribed.')
-      } else {
-        console.log('User is NOT subscribed.');
-      }
-
-      updatePushBtn();
-    })
 }
 
 function loadServiceWorker() {
@@ -206,83 +175,4 @@ function exampleNotification() {
   button.onclick = () => {
     onLoadPermissions();
   };
-}
-
-/*** Push notifications ***/
-function subscribeUser() {
-  swRegistration.pushManager
-    .subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(process.env.VAPID_PUBLIC_KEY)
-    })
-    .then(subscription => {
-      console.log("User is subscribed", subscription);
-
-      updateSubscriptionOnServer(subscription);
-
-      isSubscribed = true;
-
-      updatePushBtn();
-    })
-    .catch(err => {
-      if (Notification.permission === "denied") {
-        console.warn("Permission for notifications was denied");
-      } else {
-        console.error("Failed to subscribe the user: ", err);
-      }
-
-      updatePushBtn();
-    });
-}
-
-function unsubscribeUser() {
-  swRegistration.pushManager
-    .getSubscription()
-    .then(subscription => {
-      if (subscription) return subscription;
-    })
-    .catch(e => {
-      console.error("Error unsubscribing", e);
-    })
-    .then(() => {
-      updateSubscriptionOnServer(null);
-
-      console.log("User is unsubscribed");
-      isSubscribed = false;
-
-      updatePushBtn();
-    });
-}
-
-function updatePushBtn() {
-  if (Notification.permission === "denied") {
-    pushButton.textContent = "Push messaging blocked";
-    pushButton.disabled = true;
-    updateSubscriptionOnServer(null);
-    return;
-  }
-
-  if (isSubscribed) {
-    pushButton.textContent = "Disable Push Messaging";
-  } else {
-    pushButton.textContent = "Enable Push Messaging";
-  }
-
-  pushButton.disabled = false;
-}
-
-function updateSubscriptionOnServer(subscription) {
-  // Here's where you would send the subscription to the application server
-
-  const subscriptionJson = document.getElementById("js-subscription-json");
-  const endpointURL = document.getElementById("js-endpoint-url");
-  const subAndEndpoint = document.getElementById("js-endpoint-url");
-
-  if (subscription) {
-    subscriptionJson.textContent = JSON.stringify(subscription);
-    endpointURL.textContent = subscription.endpoint;
-    subAndEndpoint.style.display = "block";
-  } else {
-    subAndEndpoint.style.display = "none";
-  }
 }
