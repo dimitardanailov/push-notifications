@@ -1,0 +1,15 @@
+{
+  "name": "safari-apns",
+  "version": "1.0.0",
+  "description": "Project creates Safari APNs bundle.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "safari-push-notifications",
+    "push-notifications"
+  ],
+  "author": "Dimitar Danailov <dimityr.danailov@gmail.com>",
+  "license": "MIT"
+}
