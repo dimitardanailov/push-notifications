@@ -11,5 +11,8 @@
     "push-notifications"
   ],
   "author": "Dimitar Danailov <dimityr.danailov@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "safari-push-notifications": "^0.4.0"
+  }
 }
