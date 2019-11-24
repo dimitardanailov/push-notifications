@@ -1,15 +1,15 @@
-import urlBase64ToUint8Array from "./urlBase64ToUint8Array";
+import urlBase64ToUint8Array from './urlBase64ToUint8Array';
 
 class NativeClient {
   constructor(swRegistration) {
     this.swRegistration = swRegistration;
     this.isSubscribed = false;
 
-    this.pushButton = document.getElementById("js-push-btn");
+    this.pushButton = document.getElementById('js-push-btn');
   }
 
   initializeUI() {
-    this.pushButton.addEventListener("click", () => {
+    this.pushButton.addEventListener('click', () => {
       this.pushButton.disabled = true;
 
       if (this.isSubscribed) {
@@ -30,9 +30,9 @@ class NativeClient {
     this.updateSubscriptionOnServer(subscription);
 
     if (this.isSubscribed) {
-      console.log("User IS subscribed.");
+      console.log('User IS subscribed.');
     } else {
-      console.log("User is NOT subscribed.");
+      console.log('User is NOT subscribed.');
     }
 
     this.updatePushBtn();
@@ -45,12 +45,12 @@ class NativeClient {
         if (subscription) return subscription;
       })
       .catch(e => {
-        console.error("Error unsubscribing", e);
+        console.error('Error unsubscribing', e);
       })
       .then(() => {
         this.updateSubscriptionOnServer(null);
 
-        console.log("User is unsubscribed");
+        console.log('User is unsubscribed');
         this.isSubscribed = false;
 
         this.updatePushBtn();
@@ -63,10 +63,10 @@ class NativeClient {
         userVisibleOnly: true,
         applicationServerKey: urlBase64ToUint8Array(
           process.env.VAPID_PUBLIC_KEY
-        )
+        ),
       })
       .then(subscription => {
-        console.log("User is subscribed", subscription);
+        console.log('User is subscribed', subscription);
 
         this.updateSubscriptionOnServer(subscription);
 
@@ -75,10 +75,10 @@ class NativeClient {
         this.updatePushBtn();
       })
       .catch(err => {
-        if (Notification.permission === "denied") {
-          console.warn("Permission for notifications was denied");
+        if (Notification.permission === 'denied') {
+          console.warn('Permission for notifications was denied');
         } else {
-          console.error("Failed to subscribe the user: ", err);
+          console.error('Failed to subscribe the user: ', err);
         }
 
         this.updatePushBtn();
@@ -86,17 +86,17 @@ class NativeClient {
   }
 
   updatePushBtn() {
-    if (Notification.permission === "denied") {
-      this.pushButton.textContent = "Push messaging blocked";
+    if (Notification.permission === 'denied') {
+      this.pushButton.textContent = 'Push messaging blocked';
       this.pushButton.disabled = true;
       this.updateSubscriptionOnServer(null);
       return;
     }
 
     if (this.isSubscribed) {
-      this.pushButton.textContent = "Disable Push Messaging";
+      this.pushButton.textContent = 'Disable Push Messaging';
     } else {
-      this.pushButton.textContent = "Enable Push Messaging";
+      this.pushButton.textContent = 'Enable Push Messaging';
     }
 
     this.pushButton.disabled = false;
@@ -104,17 +104,16 @@ class NativeClient {
 
   updateSubscriptionOnServer(subscription) {
     // Here's where you would send the subscription to the application server
-
-    const subscriptionJson = document.getElementById("js-subscription-json");
-    const endpointURL = document.getElementById("js-endpoint-url");
-    const subAndEndpoint = document.getElementById("js-endpoint-url");
+    const subscriptionJson = document.getElementById('js-subscription-json');
+    const endpointURL = document.getElementById('js-endpoint-url');
+    const subAndEndpoint = document.getElementById('js-endpoint-url');
 
     if (subscription) {
       subscriptionJson.textContent = JSON.stringify(subscription);
       endpointURL.textContent = subscription.endpoint;
-      subAndEndpoint.style.display = "block";
+      subAndEndpoint.style.display = 'block';
     } else {
-      subAndEndpoint.style.display = "none";
+      subAndEndpoint.style.display = 'none';
     }
   }
 }
