@@ -17,6 +17,7 @@ If you want to demenostrate push notifications and discuss with your teammates o
 - [Notification Programming Guide for Websites](https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/NotificationProgrammingGuideForWebsites/LocalNotifications/LocalNotifications.html#//apple_ref/doc/uid/TP40012932-SW1)
 - [Displaying a Notification](https://developers.google.com/web/fundamentals/push-notifications/display-a-notification)
 - [Subscribing a User](https://developers.google.com/web/fundamentals/push-notifications/subscribing-a-user)
+- [Safari Push Notifications: Complete Setup](https://medium.com/@rossbulat/safari-push-notifications-complete-setup-ef57f19bbb89)
 
 ### Playlists
 - [Progressive Web App Training](https://www.youtube.com/playlist?list=PLNYkxOF6rcIB2xHBZ7opgc2Mv009X87Hh)
