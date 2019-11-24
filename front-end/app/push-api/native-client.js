@@ -102,6 +102,7 @@ class NativeClient {
     this.pushButton.disabled = false;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   updateSubscriptionOnServer(subscription) {
     // Here's where you would send the subscription to the application server
     const subscriptionJson = document.getElementById('js-subscription-json');
