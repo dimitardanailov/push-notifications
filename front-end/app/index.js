@@ -9,8 +9,6 @@ import getNotificationData from './dummy-data/getNotificationData';
 
 require('dotenv').config();
 
-const pushNotificationClient = pushNotificationVersion();
-
 function unregisterOldVersions() {
   console.log('Unregister old service workers');
   navigator.serviceWorker.getRegistrations().then(registrations => {
@@ -95,6 +93,8 @@ function initSafariUI() {
     console.log('permissionData:', permissionData);
   });
 }
+
+const pushNotificationClient = pushNotificationVersion();
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
