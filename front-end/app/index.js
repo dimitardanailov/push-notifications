@@ -5,48 +5,9 @@ import pushNotificationVersion from './push-api/pushNotificationVersion';
 import NativeClient from './push-api/native-client';
 import SafariPushNotificationClient from './push-api/safari-client';
 
-const pushNotificationClient = pushNotificationVersion();
-
 require('dotenv').config();
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    if (!('Notification' in window)) {
-      // If the browser version is unsupported, remain silent.
-      alert("Browser doesn't support push notifications ...");
-
-      return;
-    }
-
-    // unregisterOldVersions();
-
-    navigator.serviceWorker
-      .register('/sw.js')
-      .then(swReg => {
-        console.log('Service Worker is registered', swReg);
-
-        if (pushNotificationClient === 'native') {
-          const client = new NativeClient(swReg);
-          client.initializeUI();
-        }
-      })
-      .catch(e => {
-        console.error('Service Worker Error', e);
-      });
-
-    if (pushNotificationClient === 'safari') {
-      initSafariUI();
-    }
-
-    if (window.location.search !== '?live_reload=false') {
-      onLoadPermissions();
-    } else {
-      messagePermissionListener();
-    }
-
-    exampleNotification();
-  });
-}
+const pushNotificationClient = pushNotificationVersion();
 
 function unregisterOldVersions() {
   console.log('Unregister old service workers');
@@ -186,5 +147,44 @@ function initSafariUI() {
     safariPushNotificationClient.checkRemotePermission(permissionData);
 
     console.log('permissionData:', permissionData);
+  });
+}
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    if (!('Notification' in window)) {
+      // If the browser version is unsupported, remain silent.
+      alert("Browser doesn't support push notifications ...");
+
+      return;
+    }
+
+    // unregisterOldVersions();
+
+    navigator.serviceWorker
+      .register('/sw.js')
+      .then(swReg => {
+        console.log('Service Worker is registered', swReg);
+
+        if (pushNotificationClient === 'native') {
+          const client = new NativeClient(swReg);
+          client.initializeUI();
+        }
+      })
+      .catch(e => {
+        console.error('Service Worker Error', e);
+      });
+
+    if (pushNotificationClient === 'safari') {
+      initSafariUI();
+    }
+
+    if (window.location.search !== '?live_reload=false') {
+      onLoadPermissions();
+    } else {
+      messagePermissionListener();
+    }
+
+    exampleNotification();
   });
 }
