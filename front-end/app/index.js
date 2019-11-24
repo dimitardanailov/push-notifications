@@ -1,18 +1,17 @@
-import getNotificationPermissions from "./notification-api/getNotificationPermissions";
-import askPermission from "./notification-api/askPermission";
-import urlBase64ToUint8Array from "./push-api/urlBase64ToUint8Array";
+import getNotificationPermissions from './notification-api/getNotificationPermissions';
+import askPermission from './notification-api/askPermission';
+import urlBase64ToUint8Array from './push-api/urlBase64ToUint8Array';
 import pushNotificationVersion from './push-api/pushNotificationVersion';
-import NativeClient from './push-api/native-client'
-import SafariPushNotificationClient from './push-api/safari-client'
+import NativeClient from './push-api/native-client';
+import SafariPushNotificationClient from './push-api/safari-client';
 
 const pushNotificationClient = pushNotificationVersion();
-console.log('pushNotificationClient', pushNotificationClient)
 
-require("dotenv").config();
+require('dotenv').config();
 
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    if (!"Notification" in window) {
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    if (!('Notification' in window)) {
       // If the browser version is unsupported, remain silent.
       alert("Browser doesn't support push notifications ...");
 
@@ -22,24 +21,24 @@ if ("serviceWorker" in navigator) {
     // unregisterOldVersions();
 
     navigator.serviceWorker
-      .register("/sw.js")
+      .register('/sw.js')
       .then(swReg => {
-        console.log("Service Worker is registered", swReg);
+        console.log('Service Worker is registered', swReg);
 
         if (pushNotificationClient === 'native') {
-          const client = new NativeClient(swReg)
-          client.initializeUI()
+          const client = new NativeClient(swReg);
+          client.initializeUI();
         }
       })
       .catch(e => {
-        console.error("Service Worker Error", e);
+        console.error('Service Worker Error', e);
       });
 
     if (pushNotificationClient === 'safari') {
-      initSafariUI()
+      initSafariUI();
     }
 
-    if (window.location.search !== "?live_reload=false") {
+    if (window.location.search !== '?live_reload=false') {
       onLoadPermissions();
     } else {
       messagePermissionListener();
@@ -50,16 +49,16 @@ if ("serviceWorker" in navigator) {
 }
 
 function unregisterOldVersions() {
-  console.log("Unregister old service workers");
+  console.log('Unregister old service workers');
   navigator.serviceWorker.getRegistrations().then(registrations => {
-    for (let registration of registrations) {
+    for (const registration of registrations) {
       registration.unregister().then(unregister => console.log(unregister));
     }
   });
 }
 
 function messagePermissionListener() {
-  const button = document.getElementById("permissions");
+  const button = document.getElementById('permissions');
   button.onclick = async () => {
     onLoadPermissions();
   };
@@ -68,9 +67,9 @@ function messagePermissionListener() {
 async function onLoadPermissions() {
   const permission = await getNotificationPermissions();
 
-  if (permission === "granted") {
+  if (permission === 'granted') {
     showNotification();
-  } else if (permission === "default") {
+  } else if (permission === 'default') {
     askPermission();
   }
 }
@@ -78,8 +77,9 @@ async function onLoadPermissions() {
 function showNotification() {
   navigator.serviceWorker.getRegistration().then(function(reg) {
     const { title, options } = getNotificationData();
-    console.log("tag:", options.tag);
-    if ("showNotification" in reg) {
+    console.log('tag:', options.tag);
+    console.log('reg', reg);
+    if ('showNotification' in reg) {
       reg.showNotification(title, options);
     } else {
       createNewNotificationMessage();
@@ -92,24 +92,24 @@ function createNewNotificationMessage() {
   const n = new Notification(title, options);
 
   n.onshow = function() {
-    console.log("on show message ...");
+    console.log('on show message ...');
   };
 
   // Remove the notification from Notification Center when clicked.
   n.onclick = function() {
     console.log(
-      "Remove the notification from Notification Center when clicked."
+      'Remove the notification from Notification Center when clicked.'
     );
     this.close();
   };
   // Callback function when the notification is closed.
   n.onclose = function() {
-    console.log("Notification closed");
+    console.log('Notification closed');
   };
 }
 
 function getNotificationData() {
-  const title = "New message from Dimitar";
+  const title = 'New message from Dimitar';
   const options = {
     body: "Dimitar: I'm a developer",
 
@@ -122,69 +122,69 @@ function getNotificationData() {
 
     data: {
       // Lets us identity notification
-      primaryKey: 1
-    }
+      primaryKey: 1,
+    },
   };
 
-  if ("actions" in Notification.prototype) {
-    console.log("Action buttons are supported.");
+  if ('actions' in Notification.prototype) {
+    console.log('Action buttons are supported.');
     options.actions = getActions();
   } else {
-    console.log("Action buttons are NOT supported.");
+    console.log('Action buttons are NOT supported.');
   }
 
   return {
     title,
-    options
+    options,
   };
 }
 
 function generateUniqueTag() {
-  return "unique-string-" + new Date().toString();
+  return `unique-string-${new Date().toString()}`;
 }
 
 function getActions() {
   return [
     {
-      action: "react-action",
-      title: "React"
+      action: 'react-action',
+      title: 'React',
     },
     {
-      action: "angular-action",
-      title: "Angular"
+      action: 'angular-action',
+      title: 'Angular',
     },
     {
-      action: "vuejs-action",
-      title: "Vuejs"
+      action: 'vuejs-action',
+      title: 'Vuejs',
     },
     {
-      action: "ember-action",
-      title: "Emberjs"
-    }
+      action: 'ember-action',
+      title: 'Emberjs',
+    },
   ];
 }
 
-/*** Buttons  ***/
+/** * Buttons  ** */
 function exampleNotification() {
-  const button = document.getElementById("exampleNotification");
+  const button = document.getElementById('exampleNotification');
   button.onclick = () => {
     onLoadPermissions();
   };
 }
 
-/*** Safari ***/
+/** * Safari ** */
 function initSafariUI() {
-  console.log('---- ---- init Safari UI ---- ----')
-  const button = document.getElementById('safari-push-notifications')
+  console.log('---- ---- init Safari UI ---- ----');
+  const button = document.getElementById('safari-push-notifications');
 
-  button.addEventListener("click", () => {
+  button.addEventListener('click', () => {
     const safariPushNotificationClient = new SafariPushNotificationClient(
       'web.com.localhost'
-    )
+    );
 
-    const permissionData = safariPushNotificationClient.getPermissionData()
-    safariPushNotificationClient.checkRemotePermission(permissionData)
+    const permissionData = safariPushNotificationClient.getPermissionData();
+    safariPushNotificationClient.checkRemotePermission(permissionData);
 
-    console.log('permissionData:', permissionData)
-  })
+    console.log('permissionData:', permissionData);
+  });
 }
