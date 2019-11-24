@@ -3,8 +3,10 @@ import askPermission from "./notification-api/askPermission";
 import urlBase64ToUint8Array from "./push-api/urlBase64ToUint8Array";
 import pushNotificationVersion from './push-api/pushNotificationVersion';
 import NativeClient from './push-api/native-client'
+import SafariPushNotificationClient from './push-api/safari-client'
 
-const pushNotificationClient = pushNotificationVersion()
+const pushNotificationClient = pushNotificationVersion();
+console.log('pushNotificationClient', pushNotificationClient)
 
 require("dotenv").config();
 
@@ -32,6 +34,10 @@ if ("serviceWorker" in navigator) {
       .catch(e => {
         console.error("Service Worker Error", e);
       });
+
+    if (pushNotificationClient === 'safari') {
+      initSafariUI()
+    }
 
     if (window.location.search !== "?live_reload=false") {
       onLoadPermissions();
@@ -175,4 +181,21 @@ function exampleNotification() {
   button.onclick = () => {
     onLoadPermissions();
   };
+}
+
+/*** Safari ***/
+function initSafariUI() {
+  console.log('---- ---- init Safari UI ---- ----')
+  const button = document.getElementById('safari-push-notifications')
+
+  button.addEventListener("click", () => {
+    const safariPushNotificationClient = new SafariPushNotificationClient(
+      'web.com.localhost'
+    )
+
+    const permissionData = safariPushNotificationClient.getPermissionData()
+    safariPushNotificationClient.checkRemotePermission(permissionData)
+
+    console.log('permissionData:', permissionData)
+  })
 }
