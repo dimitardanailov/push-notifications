@@ -49,17 +49,6 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-function loadServiceWorker() {
-  navigator.serviceWorker
-    .register("/sw.js")
-    .then(registration => {
-      console.log("SW registered: ", registration);
-    })
-    .catch(registrationError => {
-      console.log("SW registration failed: ", registrationError);
-    });
-}
-
 function unregisterOldVersions() {
   console.log("Unregister old service workers");
   navigator.serviceWorker.getRegistrations().then(registrations => {
