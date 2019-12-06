@@ -1,0 +1,11 @@
+{
+	"websiteName": "Safari push notification simple",
+	"websitePushID": "web.push.notificationsd.danailov.app",
+	"allowedDomains": [
+		"https://push-notifications-ddanailov.firebaseapp.com",
+		"http://localhost:8080"
+	],
+	"urlFormatString": "https://push-notifications-ddanailov.firebaseapp.com/notification/%@/%@",
+	"authenticationToken": "5648391800402125",
+	"webServiceURL": "http://localhost:2450/push"
+}
