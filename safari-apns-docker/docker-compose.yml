@@ -6,5 +6,6 @@ services:
       context: ./nginx
     volumes:
       - ./nginx/template.conf:/etc/sites-available/default
+      - ./src/index.html:/var/www/index.html
     ports:
       - 8080:80

@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  app:
+    build:
+      context: ".."
+      dockerfile: "docker/source/Dockerfile"
+    volumes:
+      - "app_code:/app"
+  safari_php:
+    build:
+      context: ./php
+    hostname: "app-php"
+    depends_on:
+      - app
+    volumes:
+      - "app_code:/app"
+  nginx:
+    container_name: safari_push_notifications
+    build:
+      context: ./nginx
+    hostname: "my-nginx"
+    depends_on:
+      - safari_php
+    volumes:
+      - "app_code:/app"
+    ports:
+      - 5015:80
+
+volumes:
+  app_code:
+    name: "app_code_volume"
