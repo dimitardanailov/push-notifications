@@ -1,0 +1,1 @@
+docker run -it --rm --name running-safari-apns safari-apns
