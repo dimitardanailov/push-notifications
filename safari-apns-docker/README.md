@@ -1,8 +1,14 @@
-Commands:
+Docker commands: 
 
-Build 
+Volumes: 
 
 ```bash
-docker build -t safari-apns .
-docker run -it --rm --name running-safari-apns safari-apns
+docker volume rm app_code_volume
 ```
+
+Re - create configurations
+
+```bash
+docker-compose up -d --force-recreate --always-recreate-deps --build --remove-orphans --renew-anon-volumes
+```
+
