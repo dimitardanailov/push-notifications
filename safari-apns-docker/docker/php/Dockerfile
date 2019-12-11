@@ -1,8 +1,6 @@
-# FROM php:7.4.0-cli
-FROM php:7.2.13-fpm-alpine3.8
+FROM php:7.4.0-fpm-alpine3.10
 
-# RUN apt update 
-# RUN apt install -y libzip-dev zlib1g-dev && docker-php-ext-install zip
+RUN apk add --no-cache libzip-dev && docker-php-ext-configure zip && docker-php-ext-install zip
 
 COPY www.conf /usr/local/etc/php-fpm.d/www.conf
 
