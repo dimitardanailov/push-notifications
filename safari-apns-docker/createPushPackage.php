@@ -10,7 +10,7 @@
 $package_version = 2;      
 
 // Change this to the path where your certificate is located
-$certificate_path = "cert.p12";     
+$certificate_path = "Certificates.p12";     
 
 // Change this to the certificate's import password
 $certificate_password = "password"; 
