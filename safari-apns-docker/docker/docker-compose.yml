@@ -17,6 +17,9 @@ services:
       - safari_app
     volumes:
       - "app_code:/app"
+    environment:
+      CertficatePath: "CertificatesStaging.p12"
+      CertficatePassword: "password"
   nginx:
     container_name: safari_push_notifications_nginx_container
     build:
@@ -28,7 +31,9 @@ services:
       - "app_code:/app"
     ports:
       - 5015:80
-
+    environment:
+      CertficatePath: "CertificatesStaging.p12"
+      CertficatePassword: "password"
 volumes:
   app_code:
     name: "app_code_volume"
