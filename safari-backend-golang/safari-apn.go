@@ -18,8 +18,17 @@ func main() {
 	notification := &apns2.Notification{
 		DeviceToken: "50D790B0B94EA2BCB4918407877E143E3024F24AF7E1DC35478BA49616384420",
 		Topic:       "web.com.staging.getcraft",
-		Payload:     []byte(`{"aps":{"alert":"Hello!"}}`),
-		Priority:    apns2.PriorityHigh,
+		Payload: []byte(`{
+			"aps": {
+					"alert": {
+							"title": "Website",
+							"body": "Push notification",
+							"action": "View"
+					},
+					"url-args": ["boarding", "A998"]
+			}
+		}`),
+		Priority: apns2.PriorityHigh,
 	}
 	// notification.DeviceToken =
 
