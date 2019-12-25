@@ -62,16 +62,16 @@ func main() {
 		log.Fatal("Cert Error:", err)
 	}
 
-	payload, err := generateJSON()
+	bitesPayload, err := generateJSON()
 	if err != nil {
 		log.Fatal("Error:", err)
 	}
-	fmt.Println(string(payload))
+	fmt.Println(string(bitesPayload))
 
 	notification := &apns2.Notification{
 		DeviceToken: "50D790B0B94EA2BCB4918407877E143E3024F24AF7E1DC35478BA49616384420",
 		Topic:       "web.com.staging.getcraft",
-		Payload:     payload,
+		Payload:     bitesPayload,
 		Priority:    apns2.PriorityHigh,
 	}
 	// notification.DeviceToken =
