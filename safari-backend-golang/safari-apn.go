@@ -56,7 +56,7 @@ func generateJSON() ([]byte, error) {
 	return bytes, err
 }
 
-func main() {
+func sendSingleMessage() {
 	cert, err := certificate.FromP12File("./CertificatesStaging.p12", "password")
 	if err != nil {
 		log.Fatal("Cert Error:", err)
@@ -87,4 +87,8 @@ func main() {
 	} else {
 		fmt.Printf("Not Sent: %v %v %v\n", res.StatusCode, res.ApnsID, res.Reason)
 	}
+}
+
+func main() {
+	sendSingleMessage()
 }
