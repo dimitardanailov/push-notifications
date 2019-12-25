@@ -9,15 +9,15 @@ import (
 	"github.com/sideshow/apns2/payload"
 )
 
-func pushNotificationPayLoad() *payload.Payload {
+func pushNotificationPayLoad(flightNumber int) *payload.Payload {
 	p := payload.NewPayload()
-	p.AlertTitle("Flight A998 Boarding")
-	p.AlertBody("Boarding has begun for Flight A998.")
+	p.AlertTitle(fmt.Sprintf("Flight A%v Boarding", flightNumber))
+	p.AlertBody(fmt.Sprintf("Boarding has begun for Flight A%v.", flightNumber))
 	p.AlertAction("View")
 
 	p.URLArgs([]string{
 		"boarding",
-		"A998",
+		fmt.Sprintf("A%v", flightNumber),
 		"param3",
 	})
 
@@ -25,7 +25,7 @@ func pushNotificationPayLoad() *payload.Payload {
 }
 
 func main() {
-	p := pushNotificationPayLoad()
+	p := pushNotificationPayLoad(998)
 	bytes, err := p.MarshalJSON()
 	if err != nil {
 		log.Fatal("Error:", err)
