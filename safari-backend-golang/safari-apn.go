@@ -74,11 +74,6 @@ func main() {
 		Payload:     bitesPayload,
 		Priority:    apns2.PriorityHigh,
 	}
-	// notification.DeviceToken =
-
-	// If you want to test push notifications for builds running directly from XCode (Development), use
-	// client := apns2.NewClient(cert).Development()
-	// For apps published to the app store or installed as an ad-hoc distribution use Production()
 
 	client := apns2.NewClient(cert).Production()
 	res, err := client.Push(notification)
@@ -92,7 +87,4 @@ func main() {
 	} else {
 		fmt.Printf("Not Sent: %v %v %v\n", res.StatusCode, res.ApnsID, res.Reason)
 	}
-
-	// fmt.Printf("%v %v %v\n", res.StatusCode, res.ApnsID, res.Reason)
-	// res.Sent()
 }
