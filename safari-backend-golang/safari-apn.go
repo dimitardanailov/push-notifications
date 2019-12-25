@@ -21,13 +21,13 @@ func main() {
 		Payload: []byte(`{
 			"aps": {
 					"alert": {
-							"title": "Website",
-							"body": "Push notification",
+							"title": "Flight A998 Now Boarding",
+							"body": "Boarding has begun for Flight A998.",
 							"action": "View"
 					},
 					"url-args": ["boarding", "A998"]
 			}
-		}`),
+	}`),
 		Priority: apns2.PriorityHigh,
 	}
 	// notification.DeviceToken =
